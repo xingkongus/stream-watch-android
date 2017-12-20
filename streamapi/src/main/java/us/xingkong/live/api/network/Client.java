@@ -21,7 +21,7 @@ public class Client {
     /**
      * 默认API的URL接口
      */
-    private static final String API_HOST_DEFAULT = "http://live.xingkong.us?s=/index/user/";
+    private static final String API_HOST_DEFAULT = "http://live.xingkong.us/?s=/index/user/";
 
     /**
      * 接口方法数组

@@ -22,8 +22,12 @@ public class App {
 
     public String token;
 
+    public String user;
+
+    public boolean alive;
+
     public App() {
-        appname = title = maintext = token = "";
+        user = appname = title = maintext = token = "";
     }
 
     /**
@@ -34,6 +38,8 @@ public class App {
     public App(JSONObject json) {
         Field[] fileds = this.getClass().getFields();
         for (Field filed : fileds) {
+            if(!json.has(filed.getName()))
+                continue;
             filed.setAccessible(true);
             try {
                 filed.set(this, json.get(filed.getName()));
@@ -64,6 +70,10 @@ public class App {
         return token;
     }
 
+    public String getUser() {
+        return user;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -84,4 +94,15 @@ public class App {
         this.token = token;
     }
 
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public boolean isAlive() {
+        return alive;
+    }
 }

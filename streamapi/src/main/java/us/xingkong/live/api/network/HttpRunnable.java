@@ -50,6 +50,7 @@ public abstract class HttpRunnable implements Runnable {
         try {
             HttpURLConnection conn = null;
             String url = request.parseURL();//获取请求对象的完整url
+
             conn = (HttpURLConnection) (new URL(url).openConnection());
             conn.setDoOutput(true);
             conn.setConnectTimeout(2000);//设置连接超时

@@ -6,7 +6,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import us.xingkong.live.api.network.Client;
+import us.xingkong.streamsdk.network.Client;
 
 /**
  * Created by 饶翰新 on 2017/12/20.

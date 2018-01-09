@@ -15,9 +15,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import us.xingkong.live.api.model.App;
-import us.xingkong.live.api.model.AppsResult;
-import us.xingkong.live.api.network.ResultListener;
+import us.xingkong.streamsdk.model.App;
+import us.xingkong.streamsdk.model.AppsResult;
+import us.xingkong.streamsdk.network.ResultListener;
 import us.xingkong.testing.R;
 
 /**
@@ -53,11 +53,9 @@ public class MainActivity extends BaseActivity {
 
                 if (result != null) {
                     apps.clear();
-                    for(App app : result.getApps()) {
-                        //System.out.println(app.getAppname());
-                        //if(app.isAlive())
-                            apps.add(app);
-                    }
+                    //System.out.println(app.getAppname());
+                    //if(app.isAlive())
+                    apps.addAll(result.getApps());
                     adapter.notifyDataSetChanged();
 
                 }

@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import us.xingkong.live.api.network.Client;
+import us.xingkong.streamsdk.network.Client;
 import us.xingkong.testing.serveice.LiveService;
 
 public abstract class BaseActivity extends AppCompatActivity {

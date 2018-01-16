@@ -7,5 +7,5 @@ package us.xingkong.streamsdk.network;
  */
 
 public interface ResultListener<T> {
-    public void onDone(T result, Exception e);
+    void onDone(T result, Exception e);
 }

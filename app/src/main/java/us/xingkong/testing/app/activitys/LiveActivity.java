@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+
 import us.xingkong.testing.R;
 
 /**
@@ -16,6 +17,7 @@ import us.xingkong.testing.R;
 public class LiveActivity extends BaseActivity {
 
     protected VideoView videoView;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -34,9 +36,10 @@ public class LiveActivity extends BaseActivity {
         videoView.setVideoURI(Uri.parse("http://live.xingkong.us/hls/" + app + ".m3u8"));
         videoView.setMediaController(new MediaController(this));
         videoView.start();
+
     }
 
     public void findViewById() {
-        videoView = (VideoView) findViewById(R.id.video);
+        videoView = findViewById(R.id.video);
     }
 }

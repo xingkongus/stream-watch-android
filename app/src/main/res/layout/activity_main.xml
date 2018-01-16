@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="10dp"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/appsList"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Main"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/appsList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-        </android.support.v7.widget.RecyclerView>
-
-
-    </LinearLayout>
-
-
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

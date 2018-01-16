@@ -29,6 +29,14 @@
         </service>
 
         <activity android:name="us.xingkong.testing.app.activitys.MainActivity">
+        </activity>
+
+        <activity android:name=".app.activitys.LiveActivity">
+
+        </activity>
+
+        <activity android:name=".app.activitys.LoginActivity"
+            android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,8 +44,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.activitys.LiveActivity">
-
+        <activity android:name=".app.activitys.SigninActivity"
+            android:theme="@style/FullScreenTheme">
         </activity>
     </application>
 

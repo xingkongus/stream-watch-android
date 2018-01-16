@@ -22,12 +22,12 @@ public class AppsResult extends Result {
     public AppsResult() {
         super();
         src = "";
-        apps = new ArrayList<App>();
+        apps = new ArrayList<>();
     }
 
-    public AppsResult(String Result) throws JSONException {
+    public AppsResult(String result) throws JSONException {
         this();
-        JSONObject json = new JSONObject(Result);
+        JSONObject json = new JSONObject(result);
         setStatus(json.getInt("status"));
 
         //setMsg(json.getString("msg"));

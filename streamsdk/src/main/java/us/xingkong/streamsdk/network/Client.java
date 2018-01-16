@@ -9,6 +9,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import us.xingkong.streamsdk.model.AppsResult;
 import us.xingkong.streamsdk.model.Result;
+import us.xingkong.streamsdk.model.StatusResult;
 
 /**
  * Created by 饶翰新 on 2017/12/20.
@@ -26,7 +27,7 @@ public class Client {
     /**
      * 接口方法数组
      */
-    private static final String API_PART[] = new String[]{"apps", "app", "login", "signin", "createapp", "appupdate"};
+    private static final String API_PART[] = new String[]{"apps", "app", "login", "signin", "createapp", "appupdate", "user"};
 
     /**
      * 内部Handler
@@ -49,7 +50,7 @@ public class Client {
     public Client() {
 
         this.handler = new Handler();
-        this.cookie = new HashMap<String, String>();
+        this.cookie = new HashMap<>();
         this.pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();//初始化缓存线程池
         this.pool.setCorePoolSize(10);//设置核心池大小
         this.pool.setMaximumPoolSize(20);//设置最大池大小
@@ -102,7 +103,7 @@ public class Client {
     }
 
     /**
-     * 登陆方法
+     * 注册方法
      *
      * @param username 用户名
      * @param password 密码
@@ -122,7 +123,6 @@ public class Client {
             public void onDone(final String result, final Exception e) {
                 setCookie(this.getRequest().getCookie());//每次执行完请求后都要将本次请求获得的Cookie保存。
 
-
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -135,11 +135,35 @@ public class Client {
                                 listener.onDone(null, e1);
                             }
                         }
-
-
                     }
                 });
 
+            }
+        };
+
+        pool.execute(hr);
+    }
+
+    public void checkLoginStatus(final ResultListener<StatusResult> listener) {
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6]);
+        request.setCookie(getCookieString());
+        HttpRunnable hr = new HttpRunnable(request) {
+            @Override
+            public void onDone(final String result, final Exception e) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (e != null) {
+                            listener.onDone(null, e);
+                        } else {
+                            try {
+                                listener.onDone(new StatusResult(result), e);
+                            } catch (Exception e1) {
+                                listener.onDone(null, e1);
+                            }
+                        }
+                    }
+                });
             }
         };
 
@@ -221,7 +245,7 @@ public class Client {
      *
      * @param cookieString Cookie字符串
      */
-    public void setCookie(String cookieString) {
+    private void setCookie(String cookieString) {
         if (cookieString == null)
             return;
         String[] strs = cookieString.split(";");
@@ -247,7 +271,7 @@ public class Client {
      *
      * @return Cookie字符串
      */
-    public String getCookieString() {
+    private String getCookieString() {
         String result = "";
         for (Map.Entry<String, String> es : cookie.entrySet()) {
             if (result.length() > 0)

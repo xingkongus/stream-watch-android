@@ -19,8 +19,8 @@ public class Result {
         msg = "";
     }
 
-    public Result(String Result) throws JSONException {
-        JSONObject json = new JSONObject(Result);
+    public Result(String result) throws JSONException {
+        JSONObject json = new JSONObject(result);
         setStatus(json.getInt("status"));
         setMsg(json.getString("msg"));
     }

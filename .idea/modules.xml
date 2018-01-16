@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\Code\StudioProjects\stream-watch-android\Testing.iml" filepath="E:\Code\StudioProjects\stream-watch-android\Testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/stream-watch-android.iml" filepath="$PROJECT_DIR$/stream-watch-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/streamsdk/streamsdk.iml" filepath="$PROJECT_DIR$/streamsdk/streamsdk.iml" />

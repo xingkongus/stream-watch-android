@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void init(boolean bindSuccess) {
-        apps = new ArrayList<App>();
+        apps = new ArrayList<>();
 
         findViewById();
         //获取直播信息
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void findViewById() {
-        recyclerView = (RecyclerView) findViewById(R.id.appsList);
+        recyclerView = findViewById(R.id.appsList);
 
         adapter = new RecyclerView.Adapter() {
             @Override

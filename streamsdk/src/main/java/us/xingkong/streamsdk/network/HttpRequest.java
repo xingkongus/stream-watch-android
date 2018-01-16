@@ -9,7 +9,6 @@ import java.util.Map.Entry;
  */
 public class HttpRequest {
 
-
     /**
      * 请求url
      */
@@ -47,8 +46,8 @@ public class HttpRequest {
      */
     public HttpRequest(String url) {
         setUrl(url);
-        this.get = new HashMap<String, String>();
-        this.post = new HashMap<String, String>();
+        this.get = new HashMap<>();
+        this.post = new HashMap<>();
     }
 
     /**

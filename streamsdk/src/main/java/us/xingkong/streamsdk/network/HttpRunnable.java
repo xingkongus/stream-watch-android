@@ -48,7 +48,7 @@ public abstract class HttpRunnable implements Runnable {
     public void run() {
         //本方法实现对请求对象的请求
         try {
-            HttpURLConnection conn = null;
+            HttpURLConnection conn;
             String url = request.parseURL();//获取请求对象的完整url
 
             conn = (HttpURLConnection) (new URL(url).openConnection());

@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:weightSum="1">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="4dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.4"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="10dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/app_img"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/banner2"
+            android:padding="5dp"
+            android:layout_marginTop="5dp"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/app_img"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.6"
-        android:orientation="vertical"
-        android:padding="10dp">
+            <TextView
+                android:id="@+id/app_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textColor="#222"/>
 
-        <TextView
-            android:id="@+id/app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"
-            android:text="Test"
-            android:textSize="26sp"
-            android:textColor="#222"/>
+            <TextView
+                android:id="@+id/app_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#777"/>
 
-        <TextView
-            android:id="@+id/app_user"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:text="hansin"
-            android:textColor="#777"/>
+            <TextView
+                android:padding="4dp"
+                android:id="@+id/app_maintext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333"/>
 
-        <TextView
-            android:padding="4dp"
-            android:id="@+id/app_maintext"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:textColor="#333"
-            android:text="asdsadsad\nasdasd\nasd"/>
+        </LinearLayout>
 
-    </LinearLayout>
-</LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

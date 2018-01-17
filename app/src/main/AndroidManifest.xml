@@ -31,7 +31,10 @@
         <activity android:name="us.xingkong.testing.app.activitys.MainActivity">
         </activity>
 
-        <activity android:name=".app.activitys.LiveActivity">
+        <activity android:name=".app.activitys.LiveActivity"
+            android:theme="@style/FullScreenTheme"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:screenOrientation="sensor">
 
         </activity>
 

@@ -1,1 +1,1 @@
-include ':app', ':streamsdk'
+include ':app', ':streamsdk', ':streamlibrary'

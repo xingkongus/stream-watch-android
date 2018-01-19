@@ -5,8 +5,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -19,10 +17,10 @@ import us.xingkong.testing.R;
 import us.xingkong.testing.adapter.ItemAdapter;
 
 /**
- * Created by 饶翰新 on 2017/12/20.
+ * Created by SeaLynn0 on 2018/1/18.
  */
 
-public class MainActivity extends BaseActivity {
+public class MyLiveActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
@@ -31,8 +29,13 @@ public class MainActivity extends BaseActivity {
     private FloatingActionButton fab;
 
     @Override
+    protected boolean showToolbar() {
+        return true;
+    }
+
+    @Override
     public int getLayout() {
-        return R.layout.activity_main;
+        return R.layout.activity_mylive;
     }
 
     @Override
@@ -44,9 +47,9 @@ public class MainActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.live_list);
         }
 
-        adapter = new ItemAdapter(apps,true);
+        adapter = new ItemAdapter(apps,false);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MyLiveActivity.this, LinearLayoutManager.VERTICAL, false));
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -58,8 +61,7 @@ public class MainActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,MyLiveActivity.class));
-                finish();
+                startActivity(new Intent(MyLiveActivity.this,StreamActivity.class));
             }
         });
 
@@ -67,11 +69,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void refreshdata() {
-        //获取直播信息
-        client.getApps(new ResultListener<AppsResult>() {
+        client.getUserApps(new ResultListener<AppsResult>() {
             @Override
             public void onDone(AppsResult result, Exception e) {
-
                 if (result != null) {
                     apps.clear();
                     //System.out.println(app.getAppname());
@@ -88,30 +88,8 @@ public class MainActivity extends BaseActivity {
     }
 
     protected void findViewById() {
-        recyclerView = findViewById(R.id.appsList);
+        recyclerView = findViewById(R.id.my_apps_list);
         refreshLayout = findViewById(R.id.refresh_layout);
         fab = findViewById(R.id.fab);
-    }
-
-    @Override
-    protected boolean showToolbar() {
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.exit_login:
-                break;
-            case R.id.exit_app:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

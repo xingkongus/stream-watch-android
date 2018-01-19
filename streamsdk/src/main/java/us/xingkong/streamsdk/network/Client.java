@@ -1,6 +1,7 @@
 package us.xingkong.streamsdk.network;
 
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import us.xingkong.streamsdk.model.AppsResult;
 import us.xingkong.streamsdk.model.Result;
 import us.xingkong.streamsdk.model.StatusResult;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by 饶翰新 on 2017/12/20.
@@ -87,7 +90,7 @@ public class Client {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new Result(result), e);
+                                listener.onDone(new Result(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -130,7 +133,7 @@ public class Client {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new Result(result), e);
+                                listener.onDone(new Result(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -144,12 +147,18 @@ public class Client {
         pool.execute(hr);
     }
 
+    /**
+     * 检查登陆状态
+     *
+     * @param listener
+     */
     public void checkLoginStatus(final ResultListener<StatusResult> listener) {
         HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6]);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
             public void onDone(final String result, final Exception e) {
+                setCookie(this.getRequest().getCookie());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -157,7 +166,7 @@ public class Client {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new StatusResult(result), e);
+                                listener.onDone(new StatusResult(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -166,7 +175,38 @@ public class Client {
                 });
             }
         };
+        pool.execute(hr);
+    }
 
+    /**
+     * 获取某个用户信息
+     *
+     * @param username
+     * @param listener
+     */
+    public void getUser(String username, final ResultListener<StatusResult> listener) {
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6] + username);
+        request.setCookie(getCookieString());
+        HttpRunnable hr = new HttpRunnable(request) {
+            @Override
+            public void onDone(final String result, final Exception e) {
+                setCookie(this.getRequest().getCookie());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (e != null) {
+                            listener.onDone(null, e);
+                        } else {
+                            try {
+                                listener.onDone(new StatusResult(result), null);
+                            } catch (Exception e1) {
+                                listener.onDone(null, e1);
+                            }
+                        }
+                    }
+                });
+            }
+        };
         pool.execute(hr);
     }
 
@@ -190,7 +230,36 @@ public class Client {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new AppsResult(result), e);
+                                listener.onDone(new AppsResult(result), null);
+                            } catch (Exception e1) {
+                                listener.onDone(null, e1);
+                            }
+                        }
+
+                    }
+                });
+            }
+        };
+
+        pool.execute(hr);
+    }
+
+    public void getUserApps(final ResultListener<AppsResult> listener) {
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[0] + "&q=1");
+        request.setCookie(getCookieString());
+        HttpRunnable hr = new HttpRunnable(request) {
+            @Override
+            public void onDone(final String result, final Exception e) {
+                setCookie(this.getRequest().getCookie());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (e != null) {
+                            listener.onDone(null, e);
+                        } else {
+                            try {
+                                listener.onDone(new AppsResult(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -226,7 +295,7 @@ public class Client {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new AppsResult(result), e);
+                                listener.onDone(new AppsResult(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -248,6 +317,7 @@ public class Client {
     private void setCookie(String cookieString) {
         if (cookieString == null)
             return;
+        Log.d(TAG, "setCookie: " + cookieString);
         String[] strs = cookieString.split(";");
         for (String str : strs) {
             String[] kv = str.split("=", 2);
@@ -272,13 +342,13 @@ public class Client {
      * @return Cookie字符串
      */
     private String getCookieString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Map.Entry<String, String> es : cookie.entrySet()) {
             if (result.length() > 0)
-                result += "; ";
-            result += es.getKey() + "=" + es.getValue();
+                result.append("; ");
+            result.append(es.getKey()).append("=").append(es.getValue());
         }
-        return result;
+        return result.toString();
     }
 
     /**

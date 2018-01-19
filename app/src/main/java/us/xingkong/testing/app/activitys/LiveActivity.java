@@ -18,12 +18,6 @@ public class LiveActivity extends BaseActivity {
 
     protected VideoView videoView;
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-    }
-
     @Override
     public int getLayout() {
         return R.layout.acticity_live;
@@ -41,5 +35,10 @@ public class LiveActivity extends BaseActivity {
 
     public void findViewById() {
         videoView = findViewById(R.id.video);
+    }
+
+    @Override
+    protected boolean showToolbar() {
+        return false;
     }
 }

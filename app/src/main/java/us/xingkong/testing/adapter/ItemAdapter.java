@@ -26,8 +26,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     private List<App> mItemList;
 
-    public ItemAdapter(List<App> mItemList) {
+    private boolean isGetLiving;
+
+    public ItemAdapter(List<App> mItemList,boolean isGetLiving) {
         this.mItemList = mItemList;
+        this.isGetLiving = isGetLiving;
     }
     @Override
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -63,16 +66,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     @Override
     public int getItemCount() {
-        int count = 0;
-        for (int i = 0;i<mItemList.size();i++){
-            App app = mItemList.get(i);
-            if (app.isAlive()){
-                mItemList.remove(i);
-                mItemList.add(0,app);
-                count++;
+        if (isGetLiving){
+            int count = 0;
+            for (int i = 0;i<mItemList.size();i++){
+                App app = mItemList.get(i);
+                if (app.isAlive()){
+                    mItemList.remove(i);
+                    mItemList.add(0,app);
+                    count++;
+                }
             }
-        }
-        return count;
+            return count;
+        }else return mItemList.size();
+
     }
 
     class AppViewHolder extends RecyclerView.ViewHolder {

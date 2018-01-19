@@ -1,8 +1,6 @@
 package us.xingkong.testing.app.activitys;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import us.xingkong.streamsdk.model.Result;
-import us.xingkong.streamsdk.network.Client;
 import us.xingkong.streamsdk.network.ResultListener;
 import us.xingkong.testing.R;
 
@@ -19,7 +16,7 @@ import us.xingkong.testing.R;
  * Created by LinHai on 2018/1/14.
  */
 
-public class SigninActivity extends AppCompatActivity {
+public class SigninActivity extends BaseActivity {
 
     private Button back;
     private Button signin;
@@ -27,15 +24,19 @@ public class SigninActivity extends AppCompatActivity {
     private EditText nickname;
     private EditText password;
 
-    Client client;
+    @Override
+    protected boolean showToolbar() {
+        return false;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+    public int getLayout() {
+        return R.layout.activity_signin;
+    }
 
-        initViews();
-        client = new Client();
+    @Override
+    public void init(boolean bindSuccess) {
+        findViewById();
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +78,7 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-    private void initViews() {
+    private void findViewById() {
         back = findViewById(R.id.back);
         signin = findViewById(R.id.Button);
         username = findViewById(R.id.regist_user);

@@ -15,6 +15,7 @@ import java.util.List;
 import us.xingkong.streamsdk.model.App;
 import us.xingkong.streamsdk.model.AppsResult;
 import us.xingkong.streamsdk.network.ResultListener;
+import us.xingkong.testing.Global;
 import us.xingkong.testing.R;
 import us.xingkong.testing.adapter.ItemAdapter;
 
@@ -41,10 +42,12 @@ public class MainActivity extends BaseActivity {
 
         findViewById();
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle(R.string.live_list);
         }
 
-        adapter = new ItemAdapter(apps,true);
+        adapter = new ItemAdapter(apps, true, Global.JUMP_TO_LIVE_ACTIVITY);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
 
@@ -58,8 +61,7 @@ public class MainActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,MyLiveActivity.class));
-                finish();
+                startActivity(new Intent(MainActivity.this,MyAppActivity.class));
             }
         });
 

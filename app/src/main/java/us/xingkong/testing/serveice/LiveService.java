@@ -19,7 +19,7 @@ public class LiveService extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        live = new Client();
+        live = new Client(this);
 
     }
 

@@ -53,13 +53,14 @@
         <activity android:name=".app.activitys.SigninActivity"
             android:theme="@style/FullScreenTheme">
         </activity>
-        <activity android:name=".app.activitys.MyLiveActivity">
+        <activity android:name=".app.activitys.MyAppActivity">
         </activity>
 
         <activity android:name=".app.activitys.StreamActivity"
             android:theme="@style/FullScreenTheme"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity android:name=".app.activitys.CreateAppActivity" />
     </application>
 
 </manifest>

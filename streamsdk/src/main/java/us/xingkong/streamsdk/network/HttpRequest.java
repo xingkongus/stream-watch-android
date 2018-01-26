@@ -1,13 +1,20 @@
 package us.xingkong.streamsdk.network;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Http请求类
  */
 public class HttpRequest {
+
+    private Context context;
 
     /**
      * 请求url
@@ -44,8 +51,9 @@ public class HttpRequest {
      *
      * @param url 请求url
      */
-    public HttpRequest(String url) {
+    public HttpRequest(String url,Context context) {
         setUrl(url);
+        this.context = context;
         this.get = new HashMap<>();
         this.post = new HashMap<>();
     }
@@ -120,26 +128,27 @@ public class HttpRequest {
      * @return
      */
     public String parseURL() {
-        String result = getUrl();
+        StringBuilder result = new StringBuilder(getUrl());
         for (Entry<String, String> es : get.entrySet()) {
-            result += "&" + es.getKey() + "=" + es.getValue();
+            result.append("&").append(es.getKey()).append("=").append(es.getValue());
         }
-        return result;
+        return result.toString();
     }
 
     /**
      * 生成本对象的完整POST数据
+     *
      * @return
      */
     public String parsePOST() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (Entry<String, String> es : post.entrySet()) {
             if (result.length() > 0)
-                result += "&";
+                result.append("&");
 
-            result += es.getKey() + "=" + es.getValue();
+            result.append(es.getKey()).append("=").append(es.getValue());
         }
-        return result;
+        return result.toString();
     }
 
 
@@ -156,11 +165,14 @@ public class HttpRequest {
     }
 
     public String getCookie() {
-        return cookie;
+//        return cookie;
+        return CookieUtil.getCookiePreference(context);
     }
 
     public void setSetCookie(String setCookie) {
+        Log.d(TAG, "setSetCookie: +++" + setCookie);
         this.setCookie = setCookie;
+        CookieUtil.saveCookiePreference(context,setCookie);
     }
 
     public String getSetCookie() {

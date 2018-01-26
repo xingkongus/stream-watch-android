@@ -1,5 +1,6 @@
 package us.xingkong.streamsdk.network;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import static android.content.ContentValues.TAG;
 
 public class Client {
 
+    private Context context;
     /**
      * 默认API的URL接口
      */
@@ -50,8 +52,8 @@ public class Client {
     /**
      * 默认构造函数
      */
-    public Client() {
-
+    public Client(Context context) {
+        this.context = context;
         this.handler = new Handler();
         this.cookie = new HashMap<>();
         this.pool = (ThreadPoolExecutor) Executors.newCachedThreadPool();//初始化缓存线程池
@@ -69,7 +71,7 @@ public class Client {
      */
     public void login(String username, String password, final ResultListener<Result> listener) {
 
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[2]);//构造请求对象
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[2], context);//构造请求对象
         request.post("username", username);//请求对象设置POST数据
         request.post("password", password);//请求对象设置POST数据
         request.setCookie(getCookieString());//请求对象设置Cookie
@@ -78,6 +80,7 @@ public class Client {
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
             public void onDone(final String result, final Exception e) {
+                Log.d(TAG, "onDone: this.getRequest().getCookie():" + this.getRequest().getCookie());
                 setCookie(this.getRequest().getCookie());//每次执行完请求后都要将本次请求获得的Cookie保存。
 
                 //本onDone方法环境尚处于非UI线程环境中,使用handler在UI线程触发listener的事件。
@@ -114,7 +117,7 @@ public class Client {
      * @param listener 回调监听器
      */
     public void signin(String username, String password, String nickname, final ResultListener<Result> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[3]);//构造请求对象
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[3], context);//构造请求对象
         request.post("username", username);//请求对象设置POST数据
         request.post("password", password);//请求对象设置POST数据
         request.post("nickname", nickname);//请求对象设置POST数据
@@ -153,12 +156,48 @@ public class Client {
      * @param listener
      */
     public void checkLoginStatus(final ResultListener<StatusResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6]);
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6], context);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
             public void onDone(final String result, final Exception e) {
                 setCookie(this.getRequest().getCookie());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (e != null) {
+                            listener.onDone(null, e);
+                        } else {
+                            try {
+                                listener.onDone(new StatusResult(result), null);
+                            } catch (Exception e1) {
+                                listener.onDone(null, e1);
+                            }
+                        }
+                    }
+                });
+            }
+        };
+        pool.execute(hr);
+    }
+
+    /**
+     * 创建直播的方法
+     *
+     * @param appname
+     * @param apptitle
+     * @param maintext
+     * @param listener
+     */
+    public void createApp(String appname, String apptitle, String maintext, final ResultListener<Result> listener) {
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[4], context);
+        request.post("appname", appname);//请求对象设置POST数据
+        request.post("apptitle", apptitle);//请求对象设置POST数据
+        request.post("maintext", maintext);//请求对象设置POST数据
+        request.setCookie(getCookieString());
+        HttpRunnable hr = new HttpRunnable(request) {
+            @Override
+            public void onDone(final String result, final Exception e) {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -185,7 +224,7 @@ public class Client {
      * @param listener
      */
     public void getUser(String username, final ResultListener<StatusResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6] + username);
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6] + username, context);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
@@ -216,7 +255,7 @@ public class Client {
      * @param listener 回调监听器
      */
     public void getApps(final ResultListener<AppsResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[0]);
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[0], context);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
@@ -244,8 +283,13 @@ public class Client {
         pool.execute(hr);
     }
 
+    /**
+     * 获取当前登陆用户创建的所有直播信息
+     *
+     * @param listener
+     */
     public void getUserApps(final ResultListener<AppsResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[0] + "&q=1");
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[0] + "&q=1", context);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
@@ -280,7 +324,7 @@ public class Client {
      * @param listener 回调监听器
      */
     public void getApp(String appname, final ResultListener<AppsResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[1]);
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[1], context);
         request.post("app", appname);
         request.setCookie(getCookieString());
         HttpRunnable hr = new HttpRunnable(request) {

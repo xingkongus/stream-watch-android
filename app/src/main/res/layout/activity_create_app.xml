@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/yellow"
-        android:text="@string/signin"
+        android:text="@string/create"
         android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -24,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:id="@+id/textInputLayout1"
-        app:passwordToggleEnabled="true"
         android:layout_above="@id/Button"
         android:layout_alignParentStart="true"
         android:textColorHint="@color/yellow">
@@ -33,8 +31,8 @@
             android:id="@+id/maintext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pls_ent_code"
-            android:inputType="textPassword"
+            android:hint="@string/pls_ent_maintext"
+            android:inputType="text"
             android:textColorHint="@color/yellow"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -51,7 +49,7 @@
             android:id="@+id/apptitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pls_ent_nickname"
+            android:hint="@string/pls_ent_title"
             android:inputType="text"
             android:textColorHint="@color/yellow"/>
     </android.support.design.widget.TextInputLayout>
@@ -69,15 +67,15 @@
             android:id="@+id/appname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/pls_ent_acc"
+            android:hint="@string/pls_ent_appname"
             android:inputType="text"
             android:textColorHint="#ffc107"/>
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/ic_action_back"/>
+    <!--<Button-->
+        <!--android:id="@+id/back"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="@drawable/ic_action_back"/>-->
 
 </RelativeLayout>

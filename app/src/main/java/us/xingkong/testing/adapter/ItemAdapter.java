@@ -13,8 +13,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import us.xingkong.streamsdk.model.App;
+import us.xingkong.testing.Global;
 import us.xingkong.testing.R;
 import us.xingkong.testing.app.activitys.LiveActivity;
+import us.xingkong.testing.app.activitys.StreamActivity;
 
 /**
  * Created by SeaLynn0 on 2018/1/17.
@@ -28,9 +30,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     private boolean isGetLiving;
 
-    public ItemAdapter(List<App> mItemList,boolean isGetLiving) {
+    private int jumpTo;
+
+    public ItemAdapter(List<App> mItemList,boolean isGetLiving,int jumpTo) {
         this.mItemList = mItemList;
         this.isGetLiving = isGetLiving;
+        this.jumpTo = jumpTo;
     }
     @Override
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,9 +57,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,LiveActivity.class);
-                intent.putExtra("app",app.getAppname());
-                mContext.startActivity(intent);
+                if (jumpTo== Global.JUMP_TO_LIVE_ACTIVITY){
+                    Intent intent = new Intent(mContext,LiveActivity.class);
+                    intent.putExtra("app",app.getAppname());
+                    mContext.startActivity(intent);
+                }else if (jumpTo== Global.JUMP_TO_STREAM_ACTIVITY){
+                    Intent intent = new Intent(mContext,StreamActivity.class);
+                    intent.putExtra("token",app.getToken());
+                    mContext.startActivity(intent);
+                }
+
             }
         };
 
@@ -62,6 +74,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
         holder.appTitle.setOnClickListener(onClickListener);
         holder.appUser.setOnClickListener(onClickListener);
         holder.appMaintext.setOnClickListener(onClickListener);
+        holder.cardView.setOnClickListener(onClickListener);
     }
 
     @Override

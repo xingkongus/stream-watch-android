@@ -82,7 +82,8 @@ public class StreamActivity extends AppCompatActivity implements RtmpHandler.Rtm
             @Override
             public void onClick(View v) {
                 if (btnPublish.getText().toString().contentEquals("publish")) {
-                    rtmpUrl = "rtmp://live.xingkong.us/hls/AndroidTest?token=f706caa61597bb315468023c42cb0d47";
+                    String token = getIntent().getStringExtra("token");
+                    rtmpUrl = "rtmp://live.xingkong.us/hls/AndroidTest?token=" + token;
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("rtmpUrl", rtmpUrl);
                     editor.apply();

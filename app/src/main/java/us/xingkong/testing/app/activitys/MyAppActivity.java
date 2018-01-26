@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import us.xingkong.streamsdk.model.App;
 import us.xingkong.streamsdk.model.AppsResult;
 import us.xingkong.streamsdk.network.ResultListener;
+import us.xingkong.testing.Global;
 import us.xingkong.testing.R;
 import us.xingkong.testing.adapter.ItemAdapter;
 
@@ -20,7 +22,7 @@ import us.xingkong.testing.adapter.ItemAdapter;
  * Created by SeaLynn0 on 2018/1/18.
  */
 
-public class MyLiveActivity extends BaseActivity {
+public class MyAppActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
@@ -35,7 +37,7 @@ public class MyLiveActivity extends BaseActivity {
 
     @Override
     public int getLayout() {
-        return R.layout.activity_mylive;
+        return R.layout.activity_my_app;
     }
 
     @Override
@@ -44,12 +46,14 @@ public class MyLiveActivity extends BaseActivity {
 
         findViewById();
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(R.string.live_list);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setTitle(R.string.my_live_list);
         }
 
-        adapter = new ItemAdapter(apps,false);
+        adapter = new ItemAdapter(apps,false, Global.JUMP_TO_STREAM_ACTIVITY);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(MyLiveActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(MyAppActivity.this, LinearLayoutManager.VERTICAL, false));
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -61,7 +65,7 @@ public class MyLiveActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyLiveActivity.this,StreamActivity.class));
+                startActivity(new Intent(MyAppActivity.this,CreateAppActivity.class));
             }
         });
 
@@ -91,5 +95,15 @@ public class MyLiveActivity extends BaseActivity {
         recyclerView = findViewById(R.id.my_apps_list);
         refreshLayout = findViewById(R.id.refresh_layout);
         fab = findViewById(R.id.fab);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

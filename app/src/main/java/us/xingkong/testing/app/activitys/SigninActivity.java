@@ -50,9 +50,9 @@ public class SigninActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d("SignIn onClick", "onClick: ");
-                String username = SigninActivity.this.username.getText().toString();
-                String nickname = SigninActivity.this.nickname.getText().toString();
-                String password = SigninActivity.this.password.getText().toString();
+                String username = SigninActivity.this.username.getText().toString().trim();
+                String nickname = SigninActivity.this.nickname.getText().toString().trim();
+                String password = SigninActivity.this.password.getText().toString().trim();
 
                 if (!TextUtils.isEmpty(username)
                         && !TextUtils.isEmpty(password)
@@ -81,8 +81,8 @@ public class SigninActivity extends BaseActivity {
     private void findViewById() {
         back = findViewById(R.id.back);
         signin = findViewById(R.id.Button);
-        username = findViewById(R.id.regist_user);
-        nickname = findViewById(R.id.nickname);
-        password = findViewById(R.id.password);
+        username = findViewById(R.id.appname);
+        nickname = findViewById(R.id.apptitle);
+        password = findViewById(R.id.maintext);
     }
 }

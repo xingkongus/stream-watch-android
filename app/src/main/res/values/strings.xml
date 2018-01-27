@@ -18,5 +18,8 @@
     <string name="pls_ent_appname">请输入直播名</string>
     <string name="my_live_list">我的直播</string>
     <string name="create_app">创建直播</string>
+    <string name="exit_login_succ">退出登陆成功！</string>
+    <string name="update">更新</string>
+    <string name="update_app">更新直播</string>
 
 </resources>

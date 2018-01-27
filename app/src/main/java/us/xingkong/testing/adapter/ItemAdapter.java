@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import us.xingkong.streamsdk.model.App;
@@ -17,6 +19,7 @@ import us.xingkong.testing.Global;
 import us.xingkong.testing.R;
 import us.xingkong.testing.app.activitys.LiveActivity;
 import us.xingkong.testing.app.activitys.StreamActivity;
+import us.xingkong.testing.app.activitys.UpdateAppActivity;
 
 /**
  * Created by SeaLynn0 on 2018/1/17.
@@ -32,11 +35,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     private int jumpTo;
 
-    public ItemAdapter(List<App> mItemList,boolean isGetLiving,int jumpTo) {
+    public ItemAdapter(List<App> mItemList, boolean isGetLiving, int jumpTo) {
         this.mItemList = mItemList;
         this.isGetLiving = isGetLiving;
         this.jumpTo = jumpTo;
     }
+
     @Override
     public AppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (mContext == null) {
@@ -48,49 +52,58 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     @Override
     public void onBindViewHolder(AppViewHolder holder, int position) {
-        final App app = mItemList.get(position);
-//        System.out.print(app.getAppname());
-        holder.appTitle.setText(app.getTitle());
-        holder.appUser.setText(app.getUser());
-        holder.appMaintext.setText(app.getMaintext());
+        Global.app = mItemList.get(position);
+
+        holder.appTitle.setText(Global.app.getTitle());
+        holder.appUser.setText(Global.app.getUser());
+        holder.appMaintext.setText(Global.app.getMaintext());
+
+        Glide.with(mContext).load("http://live.xingkong.us/screen/" + Global.app.getAppname() + ".png").into(holder.appImg);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (jumpTo== Global.JUMP_TO_LIVE_ACTIVITY){
-                    Intent intent = new Intent(mContext,LiveActivity.class);
-                    intent.putExtra("app",app.getAppname());
+                if (jumpTo == Global.JUMP_TO_LIVE_ACTIVITY) {
+                    Intent intent = new Intent(mContext, LiveActivity.class);
+                    intent.putExtra("app", Global.app.getAppname());
                     mContext.startActivity(intent);
-                }else if (jumpTo== Global.JUMP_TO_STREAM_ACTIVITY){
-                    Intent intent = new Intent(mContext,StreamActivity.class);
-                    intent.putExtra("token",app.getToken());
+                } else if (jumpTo == Global.JUMP_TO_STREAM_ACTIVITY) {
+                    Intent intent = new Intent(mContext, StreamActivity.class);
+                    intent.putExtra("token", Global.app.getToken());
                     mContext.startActivity(intent);
                 }
 
             }
         };
 
-        holder.appImg.setOnClickListener(onClickListener);
-        holder.appTitle.setOnClickListener(onClickListener);
-        holder.appUser.setOnClickListener(onClickListener);
-        holder.appMaintext.setOnClickListener(onClickListener);
+        View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(mContext, UpdateAppActivity.class);
+                intent.putExtra("app", Global.app.getAppname());
+                mContext.startActivity(intent);
+                return true;
+            }
+        };
+
         holder.cardView.setOnClickListener(onClickListener);
+        holder.cardView.setOnLongClickListener(onLongClickListener);
     }
 
     @Override
     public int getItemCount() {
-        if (isGetLiving){
+        if (isGetLiving) {
             int count = 0;
-            for (int i = 0;i<mItemList.size();i++){
+            for (int i = 0; i < mItemList.size(); i++) {
                 App app = mItemList.get(i);
-                if (app.isAlive()){
+                if (app.isAlive()) {
                     mItemList.remove(i);
-                    mItemList.add(0,app);
+                    mItemList.add(0, app);
                     count++;
                 }
             }
             return count;
-        }else return mItemList.size();
+        } else return mItemList.size();
 
     }
 

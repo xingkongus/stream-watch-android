@@ -65,7 +65,7 @@ public abstract class HttpRunnable implements Runnable {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
             if (conn.getHeaderField("Set-Cookie") != null)
-                request.setSetCookie(conn.getHeaderField("Set-Cookie"));//将服务器的Set-Cookie存进request
+                request.setCookie(conn.getHeaderField("Set-Cookie"));//将服务器的Set-Cookie存进request
 
             //读取并保存数据
             int b;

@@ -36,7 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
             if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayShowTitleEnabled(false);
                 if (!showToolbar())
                     getSupportActionBar().hide();
             }

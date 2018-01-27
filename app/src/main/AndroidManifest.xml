@@ -31,9 +31,6 @@
 
         </service>
 
-        <activity android:name="us.xingkong.testing.app.activitys.MainActivity">
-        </activity>
-
         <activity android:name=".app.activitys.LiveActivity"
             android:theme="@style/FullScreenTheme"
             android:configChanges="keyboard|orientation|screenSize"
@@ -61,6 +58,8 @@
             android:configChanges="orientation|screenSize">
         </activity>
         <activity android:name=".app.activitys.CreateAppActivity" />
+        <activity android:name=".app.activitys.MainActivity" />
+        <activity android:name=".app.activitys.UpdateAppActivity" />
     </application>
 
 </manifest>

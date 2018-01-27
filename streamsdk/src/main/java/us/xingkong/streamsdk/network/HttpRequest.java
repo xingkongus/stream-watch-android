@@ -31,15 +31,6 @@ public class HttpRequest {
      */
     private Map<String, String> post;
 
-    /**
-     * 请求时要提交的Cookie字符串
-     */
-    private String cookie;
-
-    /**
-     * 请求后获得的Cookie
-     */
-    private String setCookie;
 
     /**
      * 本次请求的结果
@@ -51,7 +42,7 @@ public class HttpRequest {
      *
      * @param url 请求url
      */
-    public HttpRequest(String url,Context context) {
+    public HttpRequest(String url, Context context) {
         setUrl(url);
         this.context = context;
         this.get = new HashMap<>();
@@ -161,22 +152,14 @@ public class HttpRequest {
     }
 
     public void setCookie(String cookie) {
-        this.cookie = cookie;
+        /*
+      请求时要提交的Cookie字符串
+     */
+        CookieUtil.saveCookiePreference(context, cookie);
     }
 
     public String getCookie() {
-//        return cookie;
         return CookieUtil.getCookiePreference(context);
-    }
-
-    public void setSetCookie(String setCookie) {
-        Log.d(TAG, "setSetCookie: +++" + setCookie);
-        this.setCookie = setCookie;
-        CookieUtil.saveCookiePreference(context,setCookie);
-    }
-
-    public String getSetCookie() {
-        return setCookie;
     }
 
     public void setResult(String result) {

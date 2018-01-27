@@ -1,6 +1,7 @@
 package us.xingkong.testing.app.activitys;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,7 @@ public class MainActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setTitle(R.string.live_list);
+            getSupportActionBar().setTitle(getResources().getString(R.string.live_list));
         }
 
         adapter = new ItemAdapter(apps, true, Global.JUMP_TO_LIVE_ACTIVITY);
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -110,10 +113,20 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.exit_login:
-                break;
+                SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+                editor.putString("username","");
+                editor.putString("password","");
+                editor.putBoolean("isAutoLogin",false);
+                editor.apply();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                Toast.makeText(MainActivity.this, R.string.exit_login_succ, Toast.LENGTH_SHORT).show();
+                finish();
+                return true;
             case R.id.exit_app:
-                break;
+                android.os.Process.killProcess(android.os.Process.myPid());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }

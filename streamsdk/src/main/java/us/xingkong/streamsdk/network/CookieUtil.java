@@ -21,7 +21,6 @@ public class CookieUtil {
 
     public static String getCookiePreference(Context context) {
         SharedPreferences preference = context.getSharedPreferences(ISLOGINED, Context.MODE_PRIVATE);
-        String s = preference.getString(COOKIE, "");
-        return s;
+        return preference.getString(COOKIE, "");
     }
 }

@@ -1,4 +1,4 @@
-package us.xingkong.testing.app.activitys;
+package us.xingkong.testing.app.activities.activities;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.github.faucamp.simplertmp.RtmpHandler;

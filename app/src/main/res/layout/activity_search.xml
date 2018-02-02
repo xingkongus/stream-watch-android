@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <include layout="@layout/toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/textInputLayout1"
+            android:textColorHint="@color/yellow">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/pls_ent_username_or_appname"
+                android:inputType="text"
+                android:textColorHint="@color/yellow"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/group_search_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/search_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_user"/>
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/search_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_app"/>
+        </RadioGroup>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/yellow"
+            android:text="@string/search"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="40dp"
+            android:id="@+id/bt_search" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/search_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

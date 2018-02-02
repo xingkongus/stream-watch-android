@@ -1,30 +1,34 @@
-package us.xingkong.testing.app.activitys;
+package us.xingkong.testing.app.activities.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import butterknife.BindView;
 import us.xingkong.streamsdk.model.Result;
-import us.xingkong.streamsdk.model.StatusResult;
 import us.xingkong.streamsdk.network.ResultListener;
 import us.xingkong.testing.R;
+import us.xingkong.testing.app.activities.BaseActivity;
 
 public class LoginActivity extends BaseActivity {
 
-    private Button signin;
-    private Button login;
-    private EditText username;
-    private EditText usercode;
-
-    @Override
-    protected boolean showToolbar() {
-        return false;
-    }
+    /*
+    ButterKnife
+    Eliminate findViewById calls by using @BindView on fields.
+     */
+    @BindView(R.id.bt_signin)
+    AppCompatButton signin;
+    @BindView(R.id.bt_login)
+    AppCompatButton login;
+    @BindView(R.id.et_username)
+    AppCompatEditText username;
+    @BindView(R.id.et_password)
+    AppCompatEditText usercode;
 
     @Override
     public int getLayout() {
@@ -32,22 +36,15 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public void init(boolean bindSuccess) {
-        findViewById();
+    public void init(Bundle savedInstanceState, boolean bindSuccess) {
 
+        /*
+        获取SharedPreferences来中的用户信息来登陆
+         */
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         if (pref.getBoolean("isAutoLogin", false)) {
             loginMethod(pref.getString("username", null), pref.getString("password", null));
         }
-//        client.checkLoginStatus(new ResultListener<StatusResult>() {
-//            @Override
-//            public void onDone(StatusResult result, Exception e) {
-//                Log.d("checkLoginStatus", "onDone: "+ result.getStatus());
-//                startActivity(new Intent(LoginActivity.this,MainActivity.class));
-//                Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-//                finish();
-//            }
-//        });
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,13 +55,19 @@ public class LoginActivity extends BaseActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String userName = username.getText().toString();
-                final String userPass = usercode.getText().toString();
+                String userName = username.getText().toString();
+                String userPass = usercode.getText().toString();
                 loginMethod(userName,userPass);
             }
         });
     }
 
+    /**
+     * 将登陆封装成一个方法
+     *
+     * @param userName
+     * @param userPass
+     */
     private void loginMethod(final String userName, final String userPass) {
         username.setEnabled(false);
         usercode.setEnabled(false);
@@ -80,6 +83,7 @@ public class LoginActivity extends BaseActivity {
                         if (result.getStatus() == 100) {    //登陸失败
                             Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
                         } else if (result.getStatus() == 200) { //登录成功
+                            //使用SharedPreferences来存储用户登陆信息
                             SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
                             editor.putString("username",userName);
                             editor.putString("password",userPass);
@@ -87,21 +91,14 @@ public class LoginActivity extends BaseActivity {
                             editor.apply();
                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                             Toast.makeText(LoginActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
+                            username.setEnabled(true);
+                            usercode.setEnabled(true);
                             finish();
                         }
                     }
                 }
             });
         }
-        username.setEnabled(true);
-        usercode.setEnabled(true);
-    }
-
-    private void findViewById() {
-        signin = findViewById(R.id.bt_signin);
-        login = findViewById(R.id.bt_login);
-        username = findViewById(R.id.et_username);
-        usercode = findViewById(R.id.et_usercode);
     }
 
 }

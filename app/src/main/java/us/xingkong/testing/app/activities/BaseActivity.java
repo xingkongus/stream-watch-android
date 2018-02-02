@@ -1,4 +1,4 @@
-package us.xingkong.testing.app.activitys;
+package us.xingkong.testing.app.activities;
 
 import android.app.Service;
 import android.content.ComponentName;
@@ -7,12 +7,9 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ContentFrameLayout;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 
+import butterknife.ButterKnife;
 import us.xingkong.streamsdk.network.Client;
-import us.xingkong.testing.R;
 import us.xingkong.testing.serveice.LiveService;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -24,23 +21,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ServiceConnection sc;
     protected LiveService serivce;
 
-    private Toolbar toolbar;
-    private ContentFrameLayout viewContent;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
+        setContentView(getLayout());
+        /*
+        由于 ActivityLifecycleCallbacks 中所有方法的调用时机都是在 Activity 对应生命周期的 Super 方法中进行的,
+        所以在 Activity 的 onCreate 方法中使用 setContentView 必须在 super.onCreate(savedInstanceState); 之前,
+        不然在 onActivityCreated 方法中 findViewById 会发现找不到
+         */
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
-
-        findViewById();
-        setSupportActionBar(toolbar);
-
-            if (getSupportActionBar() != null) {
-                if (!showToolbar())
-                    getSupportActionBar().hide();
-            }
-
-        LayoutInflater.from(BaseActivity.this).inflate(getLayout(), viewContent);
+        ButterKnife.bind(this); //引入ButterKnife，在这里绑定ButterKnife子类无需绑定
 
         Intent intent = new Intent(this, LiveService.class);
         sc = new ServiceConnection() {
@@ -50,29 +40,22 @@ public abstract class BaseActivity extends AppCompatActivity {
                 serivce = ((LiveService.LiveBinder) iBinder).getService();
                 //获取接口对象
                 client = serivce.getLive();
-                init(true);
+                init(savedInstanceState,true);
 
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
-                init(false);
+                init(savedInstanceState,false);
             }
         };
         bindService(intent, sc, Service.BIND_AUTO_CREATE);
 
     }
 
-    private void findViewById() {
-        toolbar = findViewById(R.id.toolbar);
-        viewContent = findViewById(R.id.view_content);
-    }
-
-    protected abstract boolean showToolbar();
-
     public abstract int getLayout();
 
-    public abstract void init(boolean bindSuccess);
+    public abstract void init(Bundle savedInstanceState, boolean bindSuccess);
 
     @Override
     protected void onDestroy() {

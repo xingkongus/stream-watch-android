@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
 
 public class StatusResult extends Result {
 
-    public UserInfo userinfo;
+    private UserInfo userinfo;
 
     public StatusResult(){
         super();
@@ -25,6 +25,8 @@ public class StatusResult extends Result {
 
     public StatusResult(String result) throws JSONException {
         this();
+        Log.d(TAG, "Result: " + result);
+        setResult(result);
         JSONObject json = new JSONObject(result);
         setStatus(json.getInt("status"));
         setMsg(json.getString("msg"));
@@ -37,4 +39,26 @@ public class StatusResult extends Result {
 
     }
 
+    class UserInfo {
+
+        private String username;
+
+        private String nickname;
+
+        UserInfo(String username, String nickname){
+            this.username = username;
+            this.nickname = nickname;
+        }
+
+        public UserInfo() {
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+    }
 }

@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/app_img"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/banner2"
+            android:src="@drawable/logo"
             android:padding="5dp"
             android:layout_marginTop="5dp"/>
 
@@ -26,20 +26,20 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/app_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="26sp"
                 android:textColor="#222"/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/app_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#777"/>
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:padding="4dp"
                 android:id="@+id/app_maintext"
                 android:layout_width="wrap_content"

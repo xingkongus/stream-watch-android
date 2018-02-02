@@ -1,5 +1,8 @@
-package us.xingkong.testing.app.activitys;
+package us.xingkong.testing.app.activities.activities;
 
+import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -8,9 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.OnClick;
 import us.xingkong.streamsdk.model.Result;
 import us.xingkong.streamsdk.network.ResultListener;
 import us.xingkong.testing.R;
+import us.xingkong.testing.app.activities.BaseActivity;
 
 /**
  * Created by SeaLynn0 on 2018/1/28.
@@ -18,16 +25,18 @@ import us.xingkong.testing.R;
 
 public class UpdateAppActivity extends BaseActivity {
 
-    private Button update;
-    private EditText apptitle;
-    private EditText maintext;
+    /*
+    ButterKnife
+    Eliminate findViewById calls by using @BindView on fields.
+     */
+    @BindView(R.id.bt_update)
+    AppCompatButton update;
+    @BindView(R.id.apptitle)
+    AppCompatEditText apptitle;
+    @BindView(R.id.maintext)
+    AppCompatEditText maintext;
 
     String app;
-
-    @Override
-    protected boolean showToolbar() {
-        return true;
-    }
 
     @Override
     public int getLayout() {
@@ -35,8 +44,7 @@ public class UpdateAppActivity extends BaseActivity {
     }
 
     @Override
-    public void init(boolean bindSuccess) {
-        findViewById();
+    public void init(Bundle savedInstanceState, boolean bindSuccess) {
 
         app = getIntent().getStringExtra("app");
 
@@ -46,16 +54,17 @@ public class UpdateAppActivity extends BaseActivity {
             getSupportActionBar().setTitle(R.string.update_app);
         }
 
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateAppMethod();
-            }
-        });
+//        update.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                updateAppMethod();
+//            }
+//        });
     }
 
-    private void updateAppMethod() {
-        Log.d("onClick", "updateAppMethod: "+app);
+    @OnClick(R.id.bt_update)
+    void updateAppMethod() {
+        Log.d("onClick", "updateAppMethod: " + app);
         String apptitle = UpdateAppActivity.this.apptitle.getText().toString();
         String maintext = UpdateAppActivity.this.maintext.getText().toString();
 
@@ -76,12 +85,6 @@ public class UpdateAppActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    private void findViewById() {
-        update = findViewById(R.id.Button);
-        apptitle = findViewById(R.id.apptitle);
-        maintext = findViewById(R.id.maintext);
     }
 
     @Override

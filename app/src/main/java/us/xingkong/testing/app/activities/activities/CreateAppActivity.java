@@ -1,16 +1,19 @@
-package us.xingkong.testing.app.activitys;
+package us.xingkong.testing.app.activities.activities;
 
+import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import us.xingkong.streamsdk.model.Result;
 import us.xingkong.streamsdk.network.ResultListener;
 import us.xingkong.testing.R;
+import us.xingkong.testing.app.activities.BaseActivity;
 
 /**
  * Created by SeaLynn0 on 2018/1/27.
@@ -18,16 +21,18 @@ import us.xingkong.testing.R;
 
 public class CreateAppActivity extends BaseActivity {
 
-//    private Button back;
-    private Button create;
-    private EditText appanme;
-    private EditText apptitle;
-    private EditText maintext;
-
-    @Override
-    protected boolean showToolbar() {
-        return true;
-    }
+    /*
+    ButterKnife
+    Eliminate findViewById calls by using @BindView on fields.
+     */
+    @BindView(R.id.bt_create)
+    AppCompatButton create;
+    @BindView(R.id.appname)
+    AppCompatEditText appanme;
+    @BindView(R.id.apptitle)
+    AppCompatEditText apptitle;
+    @BindView(R.id.maintext)
+    AppCompatEditText maintext;
 
     @Override
     public int getLayout() {
@@ -35,31 +40,27 @@ public class CreateAppActivity extends BaseActivity {
     }
 
     @Override
-    public void init(boolean bindSuccess) {
-        findViewById();
+    public void init(Bundle savedInstanceState, boolean bindSuccess) {
 
+        /*
+        设置ActionBar的属性
+         */
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
             getSupportActionBar().setTitle(R.string.create_app);
         }
 
-//        back.setOnClickListener(new View.OnClickListener() {
+//        create.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                finish();
+//                createAppMethod();
 //            }
 //        });
-
-        create.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createAppMethod();
-            }
-        });
     }
 
-    private void createAppMethod() {
+    @OnClick(R.id.bt_create)
+    void createAppMethod() {
         String appname = CreateAppActivity.this.appanme.getText().toString().trim();
         String apptitle = CreateAppActivity.this.apptitle.getText().toString().trim();
         String maintext = CreateAppActivity.this.maintext.getText().toString().trim();
@@ -86,14 +87,6 @@ public class CreateAppActivity extends BaseActivity {
                 }
             });
         }
-    }
-
-    private void findViewById() {
-//        back = findViewById(R.id.back);
-        create = findViewById(R.id.Button);
-        appanme = findViewById(R.id.appname);
-        apptitle = findViewById(R.id.apptitle);
-        maintext = findViewById(R.id.maintext);
     }
 
     @Override

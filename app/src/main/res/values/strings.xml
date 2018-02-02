@@ -21,5 +21,12 @@
     <string name="exit_login_succ">退出登陆成功！</string>
     <string name="update">更新</string>
     <string name="update_app">更新直播</string>
+    <string name="press_fab_to_my_apps">点击右下角fab打开我的直播app</string>
+    <string name="star_live">星空直播</string>
+    <string name="exit">退出</string>
+    <string name="search_user">搜索用户</string>
+    <string name="search_app">搜索直播</string>
+    <string name="pls_ent_username_or_appname">请输入用户名或直播名！</string>
+    <string name="search">搜索</string>
 
 </resources>

@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import us.xingkong.streamsdk.model.AppsResult;
+import us.xingkong.streamsdk.model.GetAppResult;
 import us.xingkong.streamsdk.model.Result;
 import us.xingkong.streamsdk.model.StatusResult;
 
@@ -177,7 +178,8 @@ public class Client {
      * @param listener
      */
     public void getUser(String username, final ResultListener<StatusResult> listener) {
-        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6] + username, context);
+        HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[6], context);
+        request.post("username", username);//请求对象设置POST数据
         HttpRunnable hr = new HttpRunnable(request) {
             @Override
             public void onDone(final String result, final Exception e) {
@@ -270,7 +272,7 @@ public class Client {
      * @param appname  直播唯一标识名
      * @param listener 回调监听器
      */
-    public void getApp(String appname, final ResultListener<AppsResult> listener) {
+    public void getApp(String appname, final ResultListener<GetAppResult> listener) {
         HttpRequest request = new HttpRequest(API_HOST_DEFAULT + API_PART[1], context);
         request.post("app", appname);
         HttpRunnable hr = new HttpRunnable(request) {
@@ -279,12 +281,11 @@ public class Client {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-
                         if (e != null) {
                             listener.onDone(null, e);
                         } else {
                             try {
-                                listener.onDone(new AppsResult(result), null);
+                                listener.onDone(new GetAppResult(result), null);
                             } catch (Exception e1) {
                                 listener.onDone(null, e1);
                             }
@@ -294,7 +295,6 @@ public class Client {
                 });
             }
         };
-
         pool.execute(hr);
     }
 

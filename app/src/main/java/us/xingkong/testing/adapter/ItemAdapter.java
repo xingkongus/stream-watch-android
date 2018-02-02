@@ -1,25 +1,23 @@
 package us.xingkong.testing.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import us.xingkong.streamsdk.model.App;
-import us.xingkong.testing.Global;
 import us.xingkong.testing.R;
-import us.xingkong.testing.app.activitys.LiveActivity;
-import us.xingkong.testing.app.activitys.StreamActivity;
-import us.xingkong.testing.app.activitys.UpdateAppActivity;
 
 /**
  * Created by SeaLynn0 on 2018/1/17.
@@ -31,14 +29,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     private List<App> mItemList;
 
+    private List<App> livingList;
+
+    /**
+     * 获取是否在直播的Item
+     */
     private boolean isGetLiving;
 
-    private int jumpTo;
+    private OnItemClickListener mOnItemClickListener;
+    private OnItemLongClickListener mOnItemLongClickListener;
 
-    public ItemAdapter(List<App> mItemList, boolean isGetLiving, int jumpTo) {
+    public ItemAdapter(List<App> mItemList, boolean isGetLiving) {
         this.mItemList = mItemList;
         this.isGetLiving = isGetLiving;
-        this.jumpTo = jumpTo;
     }
 
     @Override
@@ -52,76 +55,91 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.AppViewHolder>
 
     @Override
     public void onBindViewHolder(AppViewHolder holder, int position) {
-        Global.app = mItemList.get(position);
+        final App app;
 
-        holder.appTitle.setText(Global.app.getTitle());
-        holder.appUser.setText(Global.app.getUser());
-        holder.appMaintext.setText(Global.app.getMaintext());
+        if (isGetLiving)
+            app = livingList.get(position);
+        else
+            app = mItemList.get(position);
 
-        Glide.with(mContext).load("http://live.xingkong.us/screen/" + Global.app.getAppname() + ".png").into(holder.appImg);
+        holder.itemView.setTag(position);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
+        holder.appTitle.setText(app.getTitle());
+        holder.appUser.setText(app.getUser());
+        holder.appMaintext.setText(app.getMaintext());
+
+        Glide.with(mContext).load("http://live.xingkong.us/screen/" + app.getAppname() + ".png").into(holder.appImg);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (jumpTo == Global.JUMP_TO_LIVE_ACTIVITY) {
-                    Intent intent = new Intent(mContext, LiveActivity.class);
-                    intent.putExtra("app", Global.app.getAppname());
-                    mContext.startActivity(intent);
-                } else if (jumpTo == Global.JUMP_TO_STREAM_ACTIVITY) {
-                    Intent intent = new Intent(mContext, StreamActivity.class);
-                    intent.putExtra("token", Global.app.getToken());
-                    mContext.startActivity(intent);
-                }
-
+            public void onClick(View v) {
+                mOnItemClickListener.onItemClick(v,app);
             }
-        };
+        });
 
-        View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Intent intent = new Intent(mContext, UpdateAppActivity.class);
-                intent.putExtra("app", Global.app.getAppname());
-                mContext.startActivity(intent);
+                mOnItemLongClickListener.onItemLongClick(v,app);
                 return true;
             }
-        };
-
-        holder.cardView.setOnClickListener(onClickListener);
-        holder.cardView.setOnLongClickListener(onLongClickListener);
+        });
     }
 
     @Override
     public int getItemCount() {
+        //根据isLive来获取不同的列表
         if (isGetLiving) {
-            int count = 0;
+            livingList = new ArrayList<>();
             for (int i = 0; i < mItemList.size(); i++) {
                 App app = mItemList.get(i);
                 if (app.isAlive()) {
-                    mItemList.remove(i);
-                    mItemList.add(0, app);
-                    count++;
+                    livingList.add(app);
                 }
             }
-            return count;
+            return livingList.size();
         } else return mItemList.size();
-
     }
 
     class AppViewHolder extends RecyclerView.ViewHolder {
-        ImageView appImg;
-        TextView appTitle;
-        TextView appUser;
-        TextView appMaintext;
+        /*
+        ButterKnife在Adapter的应用
+         */
+        @BindView(R.id.app_img)
+        AppCompatImageView appImg;
+        @BindView(R.id.app_title)
+        AppCompatTextView appTitle;
+        @BindView(R.id.app_user)
+        AppCompatTextView appUser;
+        @BindView(R.id.app_maintext)
+        AppCompatTextView appMaintext;
+
         CardView cardView;
 
         AppViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
 
             cardView = (CardView) itemView;
-            appImg = itemView.findViewById(R.id.app_img);
-            appTitle = itemView.findViewById(R.id.app_title);
-            appUser = itemView.findViewById(R.id.app_user);
-            appMaintext = itemView.findViewById(R.id.app_maintext);
         }
+    }
+
+    //define interface
+    /*
+    定义Item的点击或长按监听接口
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view , App app);
+    }
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view , App app);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickListener = listener;
+    }
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.mOnItemLongClickListener = listener;
     }
 }

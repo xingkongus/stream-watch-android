@@ -1,7 +1,11 @@
 package us.xingkong.streamsdk.model;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by 饶翰新 on 2017/12/20.
@@ -11,15 +15,21 @@ import org.json.JSONObject;
 
 public class Result {
 
-    public int status;
+    private int status;
 
-    public String msg;
+    private String msg;
+
+    public String result;
 
     public Result() {
         msg = "";
+        result = "";
     }
 
     public Result(String result) throws JSONException {
+        this();
+        Log.d(TAG, "Result: " + result);
+        setResult(result);
         JSONObject json = new JSONObject(result);
         setStatus(json.getInt("status"));
         if (json.optString("msg") != null)
@@ -41,5 +51,13 @@ public class Result {
 
     public int getStatus() {
         return status;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

@@ -3,9 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="us.xingkong.testing">
 
-    <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="26"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -13,14 +10,12 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-
-
-
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -31,14 +26,14 @@
 
         </service>
 
-        <activity android:name=".app.activitys.LiveActivity"
+        <activity android:name=".app.activities.activities.LiveActivity"
             android:theme="@style/FullScreenTheme"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="sensor">
 
         </activity>
 
-        <activity android:name=".app.activitys.LoginActivity"
+        <activity android:name=".app.activities.activities.LoginActivity"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,19 +42,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.activitys.SigninActivity"
+        <activity android:name=".app.activities.activities.SigninActivity"
             android:theme="@style/FullScreenTheme">
         </activity>
-        <activity android:name=".app.activitys.MyAppActivity">
-        </activity>
 
-        <activity android:name=".app.activitys.StreamActivity"
+        <activity android:name=".app.activities.activities.StreamActivity"
             android:theme="@style/FullScreenTheme"
             android:configChanges="orientation|screenSize">
         </activity>
-        <activity android:name=".app.activitys.CreateAppActivity" />
-        <activity android:name=".app.activitys.MainActivity" />
-        <activity android:name=".app.activitys.UpdateAppActivity" />
+        <activity android:name=".app.activities.activities.CreateAppActivity"/>
+        <activity android:name=".app.activities.activities.UpdateAppActivity"/>
+        <activity android:name=".app.activities.activities.MainActivity"/>
+        <activity android:name=".app.activities.activities.SearchActivity"/>
     </application>
 
 </manifest>
